@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Mohave', sans-serif;
+}
+
+body {
+  background: #070707;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.estrelas {
+  position: absolute;
+  inset: 0;
+  background: url('../img/estrelas.svg') center;
+  background-size: 50%;
+  opacity: .3;
+  pointer-events: none;
+}
+
+.cabecalho {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #050505;
+  gap: 4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cabecalho-item {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.conteudo {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 27px;
+}
+
+.hero p {
+  max-width: 550px;
+  justify-content: center;
+  text-align: center;
+  font-size: 18px;
+}
+
+.hero button {
+  padding: 20px 50px;
+  font-size: 18px;
+  text-decoration: none;
+  border: 1px solid #E47429;
+  background-color: #050505;
+}
+
+.hero button a {
+  text-decoration: none;
+  color: #E47429;
+}
+
+.footer {
+  background-color: #050505;
+  color: #fff;
+  padding: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15); 
+}
+
+.footer .conteudo ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  font-size: 16px;
+}
