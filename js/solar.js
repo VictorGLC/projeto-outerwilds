@@ -2,8 +2,6 @@ const canvas = document.getElementById('canva')
 const contexto = canvas.getContext('2d')
 const container = document.querySelector('.conteudo')
 
-const imagensCache = []
-
 let hoveredAstro = null
 
 const astros = [
@@ -11,39 +9,31 @@ const astros = [
         nome: "Sol", cor: "#FFD700", tamanho: 60, x: 0, y: 0, caminho: "img/astros/sol.png"
     },
     {
-        nome: "Gêmeos da Ampulheta", cor: "#764E39", raioOrbita: 100, velocidadeOrbita: 0.00777, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
+        nome: "Gêmeos da Ampulheta", raioOrbita: 100, velocidadeOrbita: 0.00777, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
         caminho: "img/astros/gemeos.png"
     },
     {
-        nome: "Recanto Lenhoso", cor: "#5A8242", raioOrbita: 160, velocidadeOrbita: 0.00648, tamanho: 27, anguloAtual: Math.random() * Math.PI * 2,
+        nome: "Recanto Lenhoso", raioOrbita: 160, velocidadeOrbita: 0.00648, tamanho: 27, anguloAtual: Math.random() * Math.PI * 2,
         caminho: "img/astros/recanto.png"
     },
     {
-        nome: "Vale Incerto", cor: "#3E4A6D", raioOrbita: 220, velocidadeOrbita: 0.00555, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
+        nome: "Vale Incerto", raioOrbita: 220, velocidadeOrbita: 0.00555, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
         caminho: "img/astros/vale.png"
     },
     {
-        nome: "Profundezas do Gigante", cor: "#34A176", raioOrbita: 300, velocidadeOrbita: 0.00468, tamanho: 45, anguloAtual: Math.random() * Math.PI * 2,
+        nome: "Profundezas do Gigante", raioOrbita: 300, velocidadeOrbita: 0.00468, tamanho: 50, anguloAtual: Math.random() * Math.PI * 2,
         caminho: "img/astros/gigante.png"
     },
     {
-        nome: "Abrolho Sombrio", cor: "#98D3D3", raioOrbita: 380, velocidadeOrbita: 0.00423, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
+        nome: "Abrolho Sombrio", raioOrbita: 380, velocidadeOrbita: 0.00423, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
         caminho: "img/astros/abrolho.png"
     }
 ]
 
 function obterImagem(caminho) {
-    if (!caminho) return null
-    if (!imagensCache[caminho]) {
-        const img = new Image()
-        img.src = caminho
-        img.onerror = () => {
-            console.error(`Falha ao carregar imagem: ${caminho}. Usando cor de fallback.`)
-            imagensCache[caminho] = 'erro'
-        }
-        imagensCache[caminho] = img
-    }
-    return imagensCache[caminho] === 'erro' ? null : imagensCache[caminho]
+    const img = new Image()
+    img.src = caminho
+    return img
 }
 
 function ajustarCanva() {
@@ -69,28 +59,18 @@ function desenhar(astro) {
     }
 
     let tamanhoAtual = astro.tamanho
-    let corAtual = astro.cor
 
     if (astro === hoveredAstro) {
         tamanhoAtual *= 1.2
-        corAtual = '#ADD8E6'
     }
 
     const imagemAstro = obterImagem(astro.caminho)
 
-    if (imagemAstro && imagemAstro.complete && imagemAstro.naturalHeight !== 0) {
-        const imgLargura = tamanhoAtual * 2
-        const imgAltura = tamanhoAtual * 2
-        const xPos = astro.x - tamanhoAtual
-        const yPos = astro.y - tamanhoAtual
-        contexto.drawImage(imagemAstro, xPos, yPos, imgLargura, imgAltura)
-    } else {
-        contexto.beginPath()
-        contexto.arc(astro.x, astro.y, tamanhoAtual, 0, Math.PI * 2)
-        contexto.fillStyle = corAtual
-        contexto.fill()
-        contexto.closePath()
-    }
+    const imgLargura = tamanhoAtual * 2
+    const imgAltura = tamanhoAtual * 2
+    const xPos = astro.x - tamanhoAtual
+    const yPos = astro.y - tamanhoAtual
+    contexto.drawImage(imagemAstro, xPos, yPos, imgLargura, imgAltura)
 }
 
 function isMouseOverAstro(mouseX, mouseY, astro) {
@@ -115,12 +95,6 @@ function animar() {
 
     requestAnimationFrame(animar)
 }
-
-astros.forEach(astro => {
-    if(astro.caminho) {
-        obterImagem(astro.caminho)
-    }
-})
 
 canvas.addEventListener('mousemove', (event) => {
     const rect = canvas.getBoundingClientRect()

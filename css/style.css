@@ -12,15 +12,6 @@ body {
   flex-direction: column;
 }
 
-.estrelas {
-  position: absolute;
-  inset: 0;
-  background: url('../img/estrelas.svg') center;
-  background-size: 50%;
-  opacity: .3;
-  pointer-events: none;
-}
-
 .cabecalho {
   padding: 20px;
   display: flex;
@@ -35,6 +26,15 @@ body {
   color: #fff;
   text-decoration: none;
   font-size: 16px;
+}
+
+.estrelas {
+  position: absolute;
+  inset: 0;
+  background: url('../img/estrelas.svg') center;
+  background-size: 50%;
+  opacity: .6;
+  pointer-events: none;
 }
 
 .conteudo {
@@ -66,11 +66,15 @@ body {
   text-decoration: none;
   border: 1px solid #E47429;
   background-color: #050505;
+  color: #E47429;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.hero button a {
-  text-decoration: none;
-  color: #E47429;
+.hero button:hover {
+  background-color: #E47429;
+  color: #050505;
+  transition: all 0.3s ease-in-out;
 }
 
 .footer {
