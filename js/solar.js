@@ -1,6 +1,6 @@
 const canvas = document.getElementById('canva')
 const contexto = canvas.getContext('2d')
-const container = document.querySelector('.conteudo')
+const container = document.querySelector('.conteudo') // Necessário pra não incluir o header na animação
 
 // Variável para armazenar o astro atualmente em destaque
 let hoveredAstro = null
@@ -152,6 +152,5 @@ canvas.addEventListener('mousemove', (event) => {
     }
 })
 
-window.addEventListener('resize', ajustarCanva)
 ajustarCanva()
 animar()
