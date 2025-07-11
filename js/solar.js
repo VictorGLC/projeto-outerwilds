@@ -49,21 +49,21 @@ function obterImagem(caminho) {
 // para garantir que o Sol permaneça centralizado
 // e o canvas preencha o container corretamente.
 function ajustarCanva() {
-    if (container) {
-        canvas.width = container.clientWidth
-        canvas.height = container.clientHeight
-        if (astros.length > 0) {
-            astros[0].x = canvas.width / 2
-            astros[0].y = canvas.height / 2
-        }
-    }
+    // Define o tamanho do canvas para o tamanho do container
+    canvas.width = container.clientWidth
+    canvas.height = container.clientHeight
+    // Centraliza o Sol no meio do canvas
+    astros[0].x = canvas.width / 2
+    astros[0].y = canvas.height / 2
 }
 
 // Função para desenhar cada astro no canvas
 // Recebe um objeto astro que contém suas propriedades
-// Desenha a órbita do astro se definido, e a imagem do astro
+// Desenha a órbita do astro se definido (se possui) e a imagem do astro
 function desenhar(astro) {
+    // Verifica se o astro tem uma órbita definida (o sol não tem)
     if (astro.raioOrbita) {
+        // Desenha a órbita do astro
         const sol = astros[0]
         contexto.strokeStyle = 'rgba(255, 255, 255, 0.45)'
         contexto.beginPath()
@@ -75,12 +75,13 @@ function desenhar(astro) {
 
     let tamanhoAtual = astro.tamanho
 
+    // Se o astro está sendo destacado (hovered), aumenta seu tamanho
     if (astro === hoveredAstro) {
         tamanhoAtual *= 1.2
     }
 
+    // Desenha a imagem do astro no canvas
     const imagemAstro = obterImagem(astro.caminho)
-
     const imgLargura = tamanhoAtual * 2
     const imgAltura = tamanhoAtual * 2
     const xPos = astro.x - tamanhoAtual
@@ -106,8 +107,10 @@ function isMouseOverAstro(mouseX, mouseY, astro) {
 // Utiliza requestAnimationFrame para criar uma animação suave
 // A posição do Sol é fixa no centro do canvas, enquanto os outros astros orbitam ao redor dele
 function animar() {
+    // Limpa o canvas antes de desenhar o próximo frame
     contexto.clearRect(0, 0, canvas.width, canvas.height)
 
+    // Desenha os astros no canvas
     const sol = astros[0]
     astros.forEach(astro => {
         if (astro.raioOrbita) {
@@ -126,12 +129,15 @@ function animar() {
 // Se estiver, atualiza a variável hoveredAstro para o astro atual
 // Isso permite destacar o astro sob o mouse, aumentando seu tamanho
 canvas.addEventListener('mousemove', (event) => {
+    // Obtém as coordenadas do mouse em relação ao canvas
     const rect = canvas.getBoundingClientRect()
     const mouseX = event.clientX - rect.left
     const mouseY = event.clientY - rect.top
 
+    // Verifica se o mouse está sobre algum astro
     let novoHoveredAstro = null
     
+    // Começa a verificar a partir do segundo astro (o Sol não deve ser destacado)
     for (let i = 1; i < astros.length; i++) {
         const astro = astros[i]
         if (isMouseOverAstro(mouseX, mouseY, astro)) {
@@ -140,6 +146,7 @@ canvas.addEventListener('mousemove', (event) => {
         }
     }
 
+    // Se o mouse não estiver sobre nenhum astro, remove o destaque
     if (novoHoveredAstro !== hoveredAstro) {
         hoveredAstro = novoHoveredAstro
     }
