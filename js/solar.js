@@ -6,7 +6,7 @@ let hoveredAstro = null
 
 const astros = [
     {
-        nome: "Sol", cor: "#FFD700", tamanho: 60, x: 0, y: 0, caminho: "img/astros/sol.png"
+        nome: "Sol", tamanho: 60, x: 0, y: 0, caminho: "img/astros/sol.png"
     },
     {
         nome: "Gêmeos da Ampulheta", raioOrbita: 100, velocidadeOrbita: 0.00777, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
