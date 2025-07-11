@@ -2,8 +2,10 @@ const canvas = document.getElementById('canva')
 const contexto = canvas.getContext('2d')
 const container = document.querySelector('.conteudo')
 
+// Variável para armazenar o astro atualmente em destaque
 let hoveredAstro = null
 
+// Definição dos astros do sistema solar
 const astros = [
     {
         nome: "Sol", tamanho: 60, x: 0, y: 0, caminho: "img/astros/sol.png"
@@ -30,12 +32,22 @@ const astros = [
     }
 ]
 
+// Função para obter a imagem de um astro
+// Recebe o caminho da imagem e retorna um objeto Image
+// Isso é feito para evitar carregar a imagem repetidamente durante a animação
+// As imagens são carregadas uma vez e reutilizadas, melhorando a performance
+// A função é chamada dentro do loop de desenho para garantir que a imagem esteja pronta para ser desenhada
 function obterImagem(caminho) {
     const img = new Image()
     img.src = caminho
     return img
 }
 
+// Ajusta o tamanho do canvas para preencher o container
+// e centraliza o Sol no meio do canvas
+// Isso é feito uma vez no início e sempre que a janela é redimensionada
+// para garantir que o Sol permaneça centralizado
+// e o canvas preencha o container corretamente.
 function ajustarCanva() {
     if (container) {
         canvas.width = container.clientWidth
@@ -47,6 +59,9 @@ function ajustarCanva() {
     }
 }
 
+// Função para desenhar cada astro no canvas
+// Recebe um objeto astro que contém suas propriedades
+// Desenha a órbita do astro se definido, e a imagem do astro
 function desenhar(astro) {
     if (astro.raioOrbita) {
         const sol = astros[0]
@@ -73,6 +88,11 @@ function desenhar(astro) {
     contexto.drawImage(imagemAstro, xPos, yPos, imgLargura, imgAltura)
 }
 
+// Função para verificar se o mouse está sobre um astro
+// Recebe as coordenadas do mouse e o objeto astro
+// Calcula a distância entre o mouse e o centro do astro
+// Se a distância for menor ou igual ao tamanho do astro, retorna true
+// Caso contrário, retorna false
 function isMouseOverAstro(mouseX, mouseY, astro) {
     const distancia = Math.sqrt(
         (mouseX - astro.x) ** 2 + (mouseY - astro.y) ** 2
@@ -80,6 +100,11 @@ function isMouseOverAstro(mouseX, mouseY, astro) {
     return distancia <= astro.tamanho
 }
 
+// Função principal que anima o sistema solar
+// Limpa o canvas a cada frame, atualiza as posições dos astros
+// Desenha cada astro no canvas
+// Utiliza requestAnimationFrame para criar uma animação suave
+// A posição do Sol é fixa no centro do canvas, enquanto os outros astros orbitam ao redor dele
 function animar() {
     contexto.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -96,6 +121,10 @@ function animar() {
     requestAnimationFrame(animar)
 }
 
+// Adiciona um listener para o evento de mousemove no canvas
+// Quando o mouse se move, verifica se está sobre algum astro
+// Se estiver, atualiza a variável hoveredAstro para o astro atual
+// Isso permite destacar o astro sob o mouse, aumentando seu tamanho
 canvas.addEventListener('mousemove', (event) => {
     const rect = canvas.getBoundingClientRect()
     const mouseX = event.clientX - rect.left
