@@ -1,36 +1,8 @@
+import {astros} from './data.js'
+
 const canvas = document.getElementById('canva')
 const contexto = canvas.getContext('2d')
 const container = document.querySelector('.conteudo') // Necessário pra não incluir o header na animação
-
-// Variável para armazenar o astro atualmente em destaque
-let hoveredAstro = null
-
-// Definição dos astros do sistema solar
-const astros = [
-    {
-        nome: "Sol", tamanho: 60, x: 0, y: 0, caminho: "img/astros/sol.png"
-    },
-    {
-        nome: "Gêmeos da Ampulheta", raioOrbita: 100, velocidadeOrbita: 0.00777, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
-        caminho: "img/astros/gemeos.png"
-    },
-    {
-        nome: "Recanto Lenhoso", raioOrbita: 160, velocidadeOrbita: 0.00648, tamanho: 27, anguloAtual: Math.random() * Math.PI * 2,
-        caminho: "img/astros/recanto.png"
-    },
-    {
-        nome: "Vale Incerto", raioOrbita: 220, velocidadeOrbita: 0.00555, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
-        caminho: "img/astros/vale.png"
-    },
-    {
-        nome: "Profundezas do Gigante", raioOrbita: 300, velocidadeOrbita: 0.00468, tamanho: 50, anguloAtual: Math.random() * Math.PI * 2,
-        caminho: "img/astros/gigante.png"
-    },
-    {
-        nome: "Abrolho Sombrio", raioOrbita: 380, velocidadeOrbita: 0.00423, tamanho: 25, anguloAtual: Math.random() * Math.PI * 2,
-        caminho: "img/astros/abrolho.png"
-    }
-]
 
 // Função para obter a imagem de um astro
 // Recebe o caminho da imagem e retorna um objeto Image
@@ -73,32 +45,20 @@ function desenhar(astro) {
         contexto.closePath()
     }
 
-    let tamanhoAtual = astro.tamanho
+    let raioAtual = astro.raio
 
     // Se o astro está sendo destacado (hovered), aumenta seu tamanho
     if (astro === hoveredAstro) {
-        tamanhoAtual *= 1.2
+        raioAtual *= 1.2
     }
 
     // Desenha a imagem do astro no canvas
     const imagemAstro = obterImagem(astro.caminho)
-    const imgLargura = tamanhoAtual * 2
-    const imgAltura = tamanhoAtual * 2
-    const xPos = astro.x - tamanhoAtual
-    const yPos = astro.y - tamanhoAtual
+    const imgLargura = raioAtual * 2
+    const imgAltura = raioAtual * 2
+    const xPos = astro.x - raioAtual
+    const yPos = astro.y - raioAtual
     contexto.drawImage(imagemAstro, xPos, yPos, imgLargura, imgAltura)
-}
-
-// Função para verificar se o mouse está sobre um astro
-// Recebe as coordenadas do mouse e o objeto astro
-// Calcula a distância entre o mouse e o centro do astro
-// Se a distância for menor ou igual ao tamanho do astro, retorna true
-// Caso contrário, retorna false
-function isMouseOverAstro(mouseX, mouseY, astro) {
-    const distancia = Math.sqrt(
-        (mouseX - astro.x) ** 2 + (mouseY - astro.y) ** 2
-    )
-    return distancia <= astro.tamanho
 }
 
 // Função principal que anima o sistema solar
@@ -122,6 +82,21 @@ function animar() {
     })
 
     requestAnimationFrame(animar)
+}
+
+// Variável para armazenar o astro atualmente em destaque
+let hoveredAstro = null
+
+// Função para verificar se o mouse está sobre um astro
+// Recebe as coordenadas do mouse e o objeto astro
+// Calcula a distância entre o mouse e o centro do astro
+// Se a distância for menor ou igual ao tamanho do astro, retorna true
+// Caso contrário, retorna false
+function isMouseOverAstro(mouseX, mouseY, astro) {
+    const distancia = Math.sqrt(
+        (mouseX - astro.x) ** 2 + (mouseY - astro.y) ** 2
+    )
+    return distancia <= astro.raio
 }
 
 // Adiciona um listener para o evento de mousemove no canvas
